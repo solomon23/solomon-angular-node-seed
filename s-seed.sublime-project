@@ -1,0 +1,23 @@
+{
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[				
+				"node_modules",
+				"build",
+				"public"
+			],
+			"file_exclude_patterns":
+			[
+				"s-seed.sublime-workspace"
+			],
+			"path": "/"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 4,
+		"translate_tabs_to_spaces": true
+	}
+}
