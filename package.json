@@ -14,7 +14,8 @@
     "coffee-script": "1.6.3",
     "underscore": "1.4.4",
     "request": "2.26.0",
-    "connect": "2.9.1"
+    "connect": "2.9.1",
+    "phantom": "*"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

@@ -4,6 +4,7 @@ define ["angular"], (angular) ->
     angular.module("myApp", [
         "ngRoute"
     ]).
-    config ["$routeProvider", ($routeProvider) ->
+    config ["$locationProvider", ($locationProvider) ->
         # add app config here
+        $locationProvider.hashPrefix "!"
     ]

@@ -200,6 +200,7 @@ module.exports = (grunt) ->
                 files: [
                     {src: ["Procfile"], dest: "build/"}
                     {src: "package.json", dest: "build/package.json"}
+                    {src: ".buildpacks", dest: "build/.buildpacks"}
                 ]
       
         ngtemplates:
