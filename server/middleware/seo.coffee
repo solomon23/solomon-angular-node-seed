@@ -1,4 +1,5 @@
 phantom = require "../utils/phantom"
+config  = require("../config").get()
 
 exports.do = (req, res, next) ->
 
@@ -7,17 +8,23 @@ exports.do = (req, res, next) ->
     host     = req.get "host"
     handle   = (err, content) -> res.send content
 
+    isBot = false
+    config.bots.forEach (i) ->
+        if ua.match i
+            isBot = true
+            return false
+
     # ignore phantom requests
     if ua.match /PhantomJS/i
         next()
 
     # handle fragments
     else if fragment
-        url = "http://#{host}/#!#{fragment}" 
+        url = "#{req.protocol}://#{host}/#!#{fragment}" 
         phantom.get url, handle
 
     # handle bots
-    else if ua.match /facebook/i
+    else if isBot
         url = "#{req.protocol}://#{host}#{req.url}"
         phantom.get url, handle
 

@@ -2,6 +2,15 @@ _ = require "underscore"
 
 config = 
     cdn: ""
+    bots:[
+        /googlebot/i
+        /bingbot/i
+        /slurp/i
+        /facebookexternalhit/i
+        /wget/i
+        /curl/i
+        /twitterbot/i
+    ]
 
 prod = 
     cdn: ""
