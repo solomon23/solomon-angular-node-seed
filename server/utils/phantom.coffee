@@ -1,8 +1,14 @@
-phantom = require "phantom"
+phantom  = require "phantom"
+q        = require "q"
+deferred = q.defer()
+
+# use a single phantom server
+phantom.create '--load-images=no', '--local-to-remote-url-access=yes', (ph) ->
+    deferred.resolve ph
 
 renderHtml = (url, cb) ->
-    phantom.create '--load-images=no', '--local-to-remote-url-access=yes', (ph) ->
-        ph.createPage (page) ->         
+    deferred.promise.then (ph) ->
+        ph.createPage (page) ->
             timer = null
 
             page.set "onCallback", () ->
@@ -11,7 +17,6 @@ renderHtml = (url, cb) ->
                 page.get "content", (c) ->
                     cb c
                     page.close()
-                    ph.exit()
         
             # set a timeout in case the page doesn't indicate it's complete
             page.set "onInitialized", ->
