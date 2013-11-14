@@ -20,8 +20,14 @@ Please have the following before building
 + [Node.JS](http://nodejs.org/)
 + [Grunt](http://gruntjs.com/)
 + [PhantomJS](http://phantomjs.org/)
-+ [Heroku](https://www.heroku.com/) account w/ toolset ( optional for heroku deployment )
-+ [AWS S3](http://aws.amazon.com/) account ( optional for CDN deployemnt )
+
+# Suggested tools
+
+Optional tools that make the process smoother
+
++ [Submlime](http://www.sublimetext.com/) Text.  Sublime project included.
++ [Heroku](https://www.heroku.com/) account w/ toolset
++ [AWS S3](http://aws.amazon.com/) account
 
 ## Quick start
 
