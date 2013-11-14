@@ -1,4 +1,5 @@
-_ = require "underscore"
+_  = require "underscore"
+Fs = require "fs"
 
 module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -16,6 +17,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-filerev"
     grunt.loadNpmTasks "grunt-filerev-assets"
     grunt.loadNpmTasks "grunt-s3"
+    grunt.loadNpmTasks "grunt-env"
 
     
     grunt.registerTask "default", ["build"]
@@ -39,6 +41,26 @@ module.exports = (grunt) ->
 
         grunt.task.run "requirejs"
 
+    # Replaces all the image urls with the static content version including the cdn url
+    grunt.registerTask "fixcssimges", "Fixes the css image urls", ->
+        cdn = require("./build/server/config").get().cdn
+        return unless cdn?.length > 0
+
+        cssDir = "./build/public/css"
+        map    = grunt.file.readJSON "./build/server/assets.json"
+        files  = Fs.readdirSync cssDir
+
+        _.each files, (f) ->
+            file = "#{cssDir}/#{f}"
+            contents = grunt.file.read file
+
+            for key, value of map
+                value = cdn + value
+                contents = contents.replace key, value
+            
+            grunt.file.write file, contents
+            console.log "File #{file} image urls updated"
+
     grunt.registerTask "server", ["builddev", "concurrent"]
 
     grunt.registerTask "builddev", [
@@ -56,6 +78,9 @@ module.exports = (grunt) ->
     ]
 
     grunt.registerTask "build", [
+        # set our environment to production
+        "env"
+
         # remove build folder
         "clean:build"
 
@@ -78,13 +103,22 @@ module.exports = (grunt) ->
         "cssmin"
 
         # set versions on all the files
-        "filerev"
+        "filerev:files"
 
         # create a server map
         "filerev_assets"
 
         # copy over server coffee files
         "copy:server"
+
+        # use cdn image urls in the css
+        "fixcssimges"
+
+        # rev the css file after it's been updated
+        "filerev:css"
+
+        # write out the assets again but with the css
+        "filerev_assets"
 
         # copy over deploy files
         "copy:heroku"
@@ -94,6 +128,9 @@ module.exports = (grunt) ->
     ]
 
     grunt.initConfig
+        env:
+            prod:
+                NODE_ENV : "production"
 
         clean:
             build: 
@@ -161,9 +198,12 @@ module.exports = (grunt) ->
             files:
                 src: [
                     "./build/public/js/**/*.js"
-                    "./build/public/lib/**/*.js"
-                    "./build/public/css/**/*.css"
+                    "./build/public/lib/**/*.js"                    
                     "./build/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}"                    
+                ]
+            css:
+                src:[
+                    "./build/public/css/**/*.css"
                 ]
 
         # create a map file for all the assets
@@ -245,5 +285,5 @@ module.exports = (grunt) ->
                 tasks: ["less:dev"]
 
             ngtemplates:
-                files: ["client/partials/**.html"]
+                files: ["client/partials/**/*.html"]
                 tasks: ["ngtemplates"]

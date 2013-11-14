@@ -39,6 +39,7 @@
     "grunt-filerev-assets": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-copy": "*",
-    "grunt-s3": "~0.2.0-alpha.3"
+    "grunt-s3": "~0.2.0-alpha.3",
+    "grunt-env": "~0.4.0"
   }
 }
