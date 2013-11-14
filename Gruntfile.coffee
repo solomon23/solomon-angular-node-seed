@@ -24,10 +24,10 @@ module.exports = (grunt) ->
     grunt.registerTask "jscombine", "Require.Js optimization", ->
         config = require "./client/js/require-config.coffee"
 
-        rjsClientConfig = config.requireConfig
+        requireConfig = config.requireConfig
 
         # client build config needs some extra items
-        _.extend rjsClientConfig,
+        _.extend requireConfig,
             name:     './lib/almond'
             baseUrl:  "build/temp"
             include:  ["js/main.js"]
@@ -35,7 +35,7 @@ module.exports = (grunt) ->
 
         grunt.config.set "requirejs",
             optimize:
-                options: rjsClientConfig
+                options: requireConfig
 
         grunt.task.run "requirejs"
 
