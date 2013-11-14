@@ -33,7 +33,7 @@ npm install
 grunt server
 ````
 
-Navigate to http://localhost:3000 and confirm site is functioning
+Navigate to `http://localhost:3000` and confirm site is functioning
 
 Create the deployment build and add it to git
 
@@ -62,7 +62,7 @@ A browser should open with your new site functioning
 
 ## Static content
 
-Create a file called aws.json in your home folder:
+Create a file called `~/aws.json` in your home folder:
 
 ````
 {
@@ -72,7 +72,7 @@ Create a file called aws.json in your home folder:
 }
 ````
 
-Modify the config file ./server/config.coffee
+Modify the config file `./server/config.coffee`
 
 ````
 prod = 
