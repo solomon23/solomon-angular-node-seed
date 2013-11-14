@@ -2,6 +2,7 @@ express = require "express"
 http    = require "http"
 path    = require "path"
 routes  = require "./routes"
+cdn     = require "./middleware/cdn"
 
 app = express()
 cwd = process.cwd()
@@ -13,6 +14,7 @@ app.configure ->
     app.use express.favicon()
     app.use express.bodyParser()
     app.use express.methodOverride()
+    app.use cdn.rewrite
     app.use app.router
     app.use express.compress()
 

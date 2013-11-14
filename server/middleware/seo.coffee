@@ -1,6 +1,6 @@
 phantom = require "../utils/phantom"
 
-exports.checkBot = (req, res, next) ->
+exports.do = (req, res, next) ->
     fragment = req.query["_escaped_fragment_"]
 
     if fragment

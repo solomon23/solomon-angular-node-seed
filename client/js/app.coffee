@@ -6,5 +6,5 @@ define ["angular"], (angular) ->
     ]).
     config ["$locationProvider", ($locationProvider) ->
         # add app config here
-        $locationProvider.hashPrefix "!"
+        $locationProvider.html5Mode(true).hashPrefix "!"
     ]

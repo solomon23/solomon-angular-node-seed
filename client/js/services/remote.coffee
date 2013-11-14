@@ -4,7 +4,7 @@ define ["appModule"], (appModule) ->
         constructor: (@$http) ->
 
         getData: ->
-            @$http method: "GET", url: "/getdata"
+            @$http method: "GET", url: "/api/getdata"
 
     # add the service
     appModule.factory "remote", [

@@ -8,39 +8,39 @@ require [
     "templates"    
 
     # bootstrap
-    "lib/bootstrap/affix.js"
-    "lib/bootstrap/alert.js"
-    "lib/bootstrap/button.js"
-    "lib/bootstrap/carousel.js"
-    "lib/bootstrap/collapse.js"
-    "lib/bootstrap/dropdown.js"
-    "lib/bootstrap/modal.js"
-    "lib/bootstrap/tooltip.js"
-    "lib/bootstrap/popover.js"
-    "lib/bootstrap/scrollspy.js"
-    "lib/bootstrap/tab.js"
-    "lib/bootstrap/transition.js"
+    "lib/bootstrap/affix"
+    "lib/bootstrap/alert"
+    "lib/bootstrap/button"
+    "lib/bootstrap/carousel"
+    "lib/bootstrap/collapse"
+    "lib/bootstrap/dropdown"
+    "lib/bootstrap/modal"
+    "lib/bootstrap/tooltip"
+    "lib/bootstrap/popover"
+    "lib/bootstrap/scrollspy"
+    "lib/bootstrap/tab"
+    "lib/bootstrap/transition"
 
-    "lib/angular/angular-route.js"
+    "lib/angular/angular-route"
     
     # the routes
-    "js/routes.js"
+    "js/routes"
 
     # services
-    "js/services/version.js"
-    "js/services/remote.js"
+    "js/services/version"
+    "js/services/remote"
 
     # controllers
-    "js/controllers/root.js"
-    "js/controllers/page1.js"
-    "js/controllers/page2.js"
+    "js/controllers/root"
+    "js/controllers/page1"
+    "js/controllers/page2"
 
     # filters
-    "js/filters/interpolate.js"
-    "js/filters/static.js"
+    "js/filters/interpolate"
+    "js/filters/static"
 
     # directives
-    "js/directives/app-version.js"
+    "js/directives/app-version"
 
 ], (angular) ->
     angular.bootstrap $("html"), ["myApp"]

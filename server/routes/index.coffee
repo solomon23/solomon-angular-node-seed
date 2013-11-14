@@ -4,6 +4,8 @@ seo   = require "../middleware/seo"
 
 exports.set = (app) ->
     
+    # api's
+    app.get "/api/getdata", data.get
+
     # setup all the routes
-    app.get "/", seo.checkBot, pages.index
-    app.get "/getdata", data.get
+    app.get "*", seo.do, pages.index

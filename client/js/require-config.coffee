@@ -2,7 +2,7 @@ exp = window ? exports
 
 exp.requireConfig =
 
-    baseUrl: "/"
+    baseUrl: "/static"
 
     # if we use the order plugin, we only need a shim for underscore
     paths:
@@ -28,22 +28,22 @@ exp.requireConfig =
             init:    -> angular            
         
         # for bootstrap
-        "lib/bootstrap/affix.js":      ["jquery"]
-        "lib/bootstrap/alert.js":      ["jquery"]
-        "lib/bootstrap/button.js":     ["jquery"]
-        "lib/bootstrap/carousel.js":   ["jquery"]
-        "lib/bootstrap/collapse.js":   ["jquery"]
-        "lib/bootstrap/dropdown.js":   ["jquery"]
-        "lib/bootstrap/modal.js":      ["jquery"]
-        "lib/bootstrap/scrollspy.js":  ["jquery"]
-        "lib/bootstrap/tab.js":        ["jquery"]
-        "lib/bootstrap/tooltip.js":    ["jquery"]
-        "lib/bootstrap/popover.js":    ["lib/bootstrap/tooltip.js"]
-        "lib/bootstrap/transition.js": ["jquery"]
-        "lib/bootstrap/typeahead.js":  ["jquery"]
+        "lib/bootstrap/affix":      ["jquery"]
+        "lib/bootstrap/alert":      ["jquery"]
+        "lib/bootstrap/button":     ["jquery"]
+        "lib/bootstrap/carousel":   ["jquery"]
+        "lib/bootstrap/collapse":   ["jquery"]
+        "lib/bootstrap/dropdown":   ["jquery"]
+        "lib/bootstrap/modal":      ["jquery"]
+        "lib/bootstrap/scrollspy":  ["jquery"]
+        "lib/bootstrap/tab":        ["jquery"]
+        "lib/bootstrap/tooltip":    ["jquery"]
+        "lib/bootstrap/popover":    ["lib/bootstrap/tooltip"]
+        "lib/bootstrap/transition": ["jquery"]
+        "lib/bootstrap/typeahead":  ["jquery"]
 
         # angular
-        "lib/angular/angular-route.js": ["angular"]
+        "lib/angular/angular-route": ["angular"]
         "appModule":                    ["angular"]
         "templates":                    ["appModule"]
 

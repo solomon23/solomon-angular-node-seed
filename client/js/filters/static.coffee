@@ -5,7 +5,13 @@ define ["appModule"], (appModule) ->
     ###
     staticFilter =  ->
         (text) ->
-            staticMapping[text] ? text
+            map = staticMapping[text] ? text
+            
+            # chop off the first slash
+            map = map.substring 1 if map.charAt[0] is "/"
+
+            # prepend the static server
+            "/static/#{map}"
 
     appModule.filter "static", [
         staticFilter
