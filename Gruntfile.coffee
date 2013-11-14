@@ -1,5 +1,4 @@
-_    = require "underscore"
-Path = require "path"
+_ = require "underscore"
 
 module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -15,8 +14,9 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-concurrent"
     grunt.loadNpmTasks "grunt-angular-templates"
     grunt.loadNpmTasks "grunt-filerev"
-    grunt.loadNpmTasks "grunt-filerev-assets"    
-                   
+    grunt.loadNpmTasks "grunt-filerev-assets"
+    grunt.loadNpmTasks "grunt-s3"
+
     
     grunt.registerTask "default", ["build"]
     
@@ -212,6 +212,28 @@ module.exports = (grunt) ->
                     htmlmin: collapseWhitespace: true, collapseBooleanAttributes: true
                     bootstrap:  (module, script) ->
                         "define(['appModule'], function(appModule) {appModule.run(['$templateCache', function($templateCache){ #{script} }])});"
+
+        aws: grunt.file.readJSON process.env.HOME + "/aws.json"
+        s3:
+            options: 
+                key: '<%= aws.key %>'
+                secret: '<%= aws.secret %>'
+                bucket: '<%= aws.bucket %>',                
+                access: 'public-read'
+                gzipExclude: [".jpg", ".jpeg", ".png", ".gif"]
+                headers:
+                    # Two Year cache policy (1000 * 60 * 60 * 24 * 730)
+                    "Cache-Control": "public, max-age=630720000"
+                    "Expires": new Date(Date.now() + 63072000000).toUTCString()
+
+            prod:
+                sync:[
+                    src: "build/public/**"
+                    dest: "public/"
+                    # make sure the wildcard paths are fully expanded in the dest
+                    rel: "build/public"
+                    options: gzip: true
+                ]
   
         watch:
             coffee:
