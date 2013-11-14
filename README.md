@@ -7,19 +7,19 @@ This is a seed start a project to build a production ready website containing
 + [RequireJS](http://requirejs.org/)
 + [Node.JS](http://nodejs.org/)
 + [LESS](http://lesscss.org/)
-+ SEO
-+ Versioned static content
++ SEO ( using phantomjs )
++ Versioned/minified/compressed static content and cdn deployment
 + Easy production deployment
 
 ## Pre-reqs
 
-Please install the following before building
+Please have the following before building
 
 + [Node.JS](http://nodejs.org/)
 + [Grunt](http://gruntjs.com/)
 + [PhantomJS](http://phantomjs.org/)
-+ [Heroku](https://www.heroku.com/) account w/ toolset
-+ [AWS S3](http://aws.amazon.com/) account
++ [Heroku](https://www.heroku.com/) account w/ toolset ( optional for heroku deployment )
++ [AWS S3](http://aws.amazon.com/) account ( optional for CDN deployemnt )
 
 ## Quick start
 
@@ -33,13 +33,19 @@ grunt server
 
 Navigate to http://localhost:3000 and confirm site is functioning
 
+Create the deployment build and add it to git
+
 ````
 grunt build
 cd ./build
 git init
 add .
 git commit -am "new"
+````
 
+Create the Heroku site
+
+````
 heroku create
 git push heroku master
 
