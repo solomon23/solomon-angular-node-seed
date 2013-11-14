@@ -8,6 +8,7 @@ This is a seed start a project to build a production ready website containing
 + [Node.JS](http://nodejs.org/)
 + [LESS](http://lesscss.org/)
 + [Bootstrap](http://getbootstrap.com/)
++ [CoffeeScript](http://coffeescript.org/)
 + SEO ( using phantomjs )
 + Versioned/minified/compressed static content and cdn deployment
 + Easy production deployment
