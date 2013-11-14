@@ -3,7 +3,7 @@ define ["appModule"], (appModule) ->
     # setup the routes
     appModule.config ["$routeProvider", ($routeProvider) ->
       
-        $routeProvider.when "/view1", 
+        $routeProvider.when "/", 
             templateUrl: "partials/pages/first-page.html"
             controller: "Page1Controller"
 
