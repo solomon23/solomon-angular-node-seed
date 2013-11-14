@@ -1,4 +1,4 @@
-solomon-angular-node-seed
+Solomon's Angular-Node Seed
 =========================
 
 This is a seed start a project to build a production ready website containing
@@ -7,6 +7,7 @@ This is a seed start a project to build a production ready website containing
 + [RequireJS](http://requirejs.org/)
 + [Node.JS](http://nodejs.org/)
 + [LESS](http://lesscss.org/)
++ [Bootstrap](http://getbootstrap.com/)
 + SEO ( using phantomjs )
 + Versioned/minified/compressed static content and cdn deployment
 + Easy production deployment
