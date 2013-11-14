@@ -4,6 +4,9 @@ define ["appModule"], (appModule) ->
         $scope.page = "page2"
 
 
+        # mark the page as complete
+        $scope.pageDone()
+
     # register the controller
     appModule.controller "Page2Controller", [
         "$scope"

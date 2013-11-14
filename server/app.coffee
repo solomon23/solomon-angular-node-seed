@@ -19,6 +19,8 @@ app.configure ->
     if process.env.NODE_ENV isnt "production"
         # used to grab the coffee and map files
         app.use express.static path.join cwd, "client"
+    else
+        app.use express.logger()
 
     # stores the css and image files
     app.use express.static path.join cwd, "public"
