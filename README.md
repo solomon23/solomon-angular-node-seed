@@ -25,7 +25,7 @@ Please have the following before building
 
 Optional tools that make the process smoother
 
-+ [Submlime Text](http://www.sublimetext.com/).  Sublime project included.
++ [Sublime Text](http://www.sublimetext.com/).  Sublime project included.
 + [Heroku](https://www.heroku.com/) account w/ [toolbelt](https://toolbelt.heroku.com/) installed 
 + [AWS S3](http://aws.amazon.com/) account
 
