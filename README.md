@@ -46,7 +46,11 @@ git push heroku master
 heroku ps:scale web=1
 heroku config:set NODE_ENV=production
 heroku config:set PATH="/usr/local/bin:/usr/bin:/bin:/app/vendor/phantomjs/bin"
+
+heroku open
 ````
+
+A browser should open with your new site functioning
 
 ## Static content
 
@@ -70,7 +74,7 @@ prod =
 Deploy to s3 with
 
 `
-grunt s3
+grunt s3:prod
 `
 
 # Redeploy to heroku
