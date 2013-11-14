@@ -7,12 +7,8 @@ exports.do = (req, res, next) ->
     host     = req.get "host"
     handle   = (err, content) -> res.send content
 
-    # don't process static files
-    if req.isStatic
-        next()
-
     # ignore phantom requests
-    else if ua.match /PhantomJS/i
+    if ua.match /PhantomJS/i
         next()
 
     # handle fragments
