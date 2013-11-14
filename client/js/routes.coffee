@@ -11,5 +11,5 @@ define ["appModule"], (appModule) ->
             templateUrl: "partials/pages/second-page.html"
             controller: "Page2Controller"
 
-        $routeProvider.otherwise redirectTo: "/view1"
+        $routeProvider.otherwise redirectTo: "/"
     ]

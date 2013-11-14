@@ -5,9 +5,7 @@ exports.do = (req, res, next) ->
     fragment = req.query["_escaped_fragment_"]
     ua       = req.get "user-agent"
     host     = req.get "host"
-
-    handle = (err, content) ->
-        res.send content
+    handle   = (err, content) -> res.send content
 
     # don't process static files
     if req.isStatic

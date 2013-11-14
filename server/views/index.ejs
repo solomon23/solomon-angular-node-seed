@@ -9,7 +9,10 @@
         }
     </style>
     <script>
-        staticMapping = <%- JSON.stringify(map) %>;
+        staticConfig = {
+            mapping: <%- JSON.stringify(map) %>,
+            cdn: '<%- config.cdn %>'
+        }        
     </script>
     <link rel="stylesheet" ng-href="{{'/css/app.css' | static}}" />
     <meta name="fragment" content="!" />
@@ -47,10 +50,10 @@
     </div>
 
 <% if (env === "production") {%>
-    <script src="/static/<%= map.get('/js/combined.js')%>" type="text/javascript"></script>  
+    <script src="<%- config.cdn %><%= map.get('/js/combined.js')%>" type="text/javascript"></script>  
 <%}else{%>
-    <script src="/static/js/require-config.js" type="text/javascript"></script>
-    <script src="/static/lib/require.js" type="text/javascript" data-main="/static/js/main.js"></script>
+    <script src="<%- config.cdn %>/js/require-config.js" type="text/javascript"></script>
+    <script src="<%- config.cdn %>/lib/require.js" type="text/javascript" data-main="<%- config.cdn %>/js/main.js"></script>
 <%}%>
 
 </body>

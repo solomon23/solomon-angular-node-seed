@@ -2,7 +2,7 @@ exp = window ? exports
 
 exp.requireConfig =
 
-    baseUrl: "/static"
+    baseUrl: if staticConfig? then staticConfig.cdn + "/" else "/"
 
     # if we use the order plugin, we only need a shim for underscore
     paths:

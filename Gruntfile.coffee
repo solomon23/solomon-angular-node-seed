@@ -32,7 +32,7 @@ module.exports = (grunt) ->
             baseUrl:  "build/temp"
             include:  ["js/main.js"]
             out:      "./build/public/js/combined.js"
-    
+
         grunt.config.set "requirejs",
             optimize:
                 options: rjsClientConfig

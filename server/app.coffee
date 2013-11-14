@@ -2,7 +2,6 @@ express = require "express"
 http    = require "http"
 path    = require "path"
 routes  = require "./routes"
-cdn     = require "./middleware/cdn"
 
 app = express()
 cwd = process.cwd()
@@ -14,8 +13,6 @@ app.configure ->
     app.use express.favicon()
     app.use express.bodyParser()
     app.use express.methodOverride()
-    app.use cdn.rewrite
-    app.use app.router
     app.use express.compress()
 
     if process.env.NODE_ENV isnt "production"
@@ -26,6 +23,9 @@ app.configure ->
 
     # stores the css and image files
     app.use express.static path.join cwd, "public"
+
+    # route is last to allow static files to be picked up
+    app.use app.router
 
 app.configure "development", ->
     app.use express.errorHandler()
