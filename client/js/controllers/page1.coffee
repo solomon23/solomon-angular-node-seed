@@ -8,6 +8,9 @@ define ["appModule"], (appModule) ->
             .success (data) ->
                 $scope.myData = data.message
 
+                # mark the page as complete
+                $scope.pageDone()
+
         _init()
 
     # register the controller
