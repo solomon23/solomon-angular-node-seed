@@ -1,7 +1,7 @@
 Solomon's Angular-Node Seed
 =========================
 
-This is a seed start a project to build a production ready website containing
+This is a seed project to build a production ready website containing
 
 + [AngularJS](http://angularjs.org/)
 + [RequireJS](http://requirejs.org/)
