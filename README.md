@@ -31,7 +31,7 @@ Optional tools that make the process smoother
 
 ## Quick start
 
-Clone down the repo
+### Clone down the repo
 
 ````
 git clone https://github.com/solomon23/solomon-angular-node-seed.git
@@ -41,7 +41,7 @@ grunt server
 
 Navigate to `http://localhost:3000` and confirm site is functioning
 
-Create the deployment build and add it to git
+### Create the deployment build and add it to git
 
 ````
 grunt build
@@ -51,7 +51,7 @@ add .
 git commit -am "new"
 ````
 
-Create the Heroku site
+### Create the Heroku site
 
 ````
 heroku create
@@ -85,13 +85,13 @@ prod =
     cdn: "http://s3.amazonaws.com/xxx"
 ````    
   
-Deploy to s3 with
+### Deploy to s3 with
 
 `
 grunt s3:prod
 `
 
-# Redeploy to heroku
+## Redeploy to heroku
 
 Subsequent deploys to heroku can use the same site
 
