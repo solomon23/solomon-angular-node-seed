@@ -18,5 +18,4 @@ prod =
 if process.env.NODE_ENV is "production"
     _.extend config, prod
 
-exports.get = ->
-    config
+module.exports = config

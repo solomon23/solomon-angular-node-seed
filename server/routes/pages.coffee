@@ -5,5 +5,5 @@ staticMap.get = (id) ->
     staticMap[id] ? id
 
 exports.index = (req, res, next) ->    
-    res.render "index", map: staticMap, env: process.env.NODE_ENV, config: config.get()
+    res.render "index", map: staticMap, env: process.env.NODE_ENV, config: config
     

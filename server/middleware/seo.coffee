@@ -1,5 +1,5 @@
 phantom = require "../utils/phantom"
-config  = require("../config").get()
+config  = require "../config"
 
 exports.do = (req, res, next) ->
 
