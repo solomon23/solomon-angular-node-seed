@@ -1,8 +1,7 @@
 phantom = require "../utils/phantom"
 config  = require "../config"
 
-exports.do = (req, res, next) ->
-
+module.exports = (req, res, next) ->
     fragment = req.query["_escaped_fragment_"]
     ua       = req.get "user-agent"
     host     = req.get "host"

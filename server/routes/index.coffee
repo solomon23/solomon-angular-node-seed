@@ -8,4 +8,4 @@ exports.set = (app) ->
     app.get "/api/getdata", data.get
 
     # setup all the routes
-    app.get "*", seo.do, pages.index
+    app.get "*", seo, pages.index
