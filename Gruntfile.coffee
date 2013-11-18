@@ -231,6 +231,9 @@ module.exports = (grunt) ->
 
                     # image files
                     {expand: true, src: "images/**", cwd: "client/", dest: "./build/public/"}
+
+                    # font files
+                    {expand: true, src: "fonts/**", cwd: "client/", dest: "./build/public/"}
                 ]
             server:
                 files: [
@@ -260,7 +263,7 @@ module.exports = (grunt) ->
                 secret: '<%= aws.secret %>'
                 bucket: '<%= aws.bucket %>',                
                 access: 'public-read'
-                gzipExclude: [".jpg", ".jpeg", ".png", ".gif"]
+                gzipExclude: [".jpg", ".jpeg", ".png", ".gif", ".eot", ".svg", ".ttf", ".woff"]
                 headers:
                     # Two Year cache policy (1000 * 60 * 60 * 24 * 730)
                     "Cache-Control": "public, max-age=630720000"
