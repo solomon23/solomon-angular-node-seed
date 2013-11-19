@@ -18,6 +18,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-filerev-assets"
     grunt.loadNpmTasks "grunt-s3"
     grunt.loadNpmTasks "grunt-env"
+    grunt.loadNpmTasks "grunt-shell"
 
     
     grunt.registerTask "default", ["build"]
@@ -62,6 +63,8 @@ module.exports = (grunt) ->
             console.log "File #{file} image urls updated"
 
     grunt.registerTask "server", ["builddev", "concurrent"]
+
+    grunt.registerTask "deploy", ["shell:gitadd", "shell:gitcommit", "shell:gitpush"]
 
     grunt.registerTask "builddev", [
         # removing the public dir
@@ -277,6 +280,25 @@ module.exports = (grunt) ->
                     rel: "build/public"
                     options: gzip: true
                 ]
+
+        shell: 
+            gitadd:
+                command: "git add ."
+                options: 
+                    stdout: true
+                    execOptions: cwd: "build"
+
+            gitcommit:
+                command: "git commit -am \"new\""
+                options: 
+                    stdout: true
+                    execOptions: cwd: "build"
+
+            gitpush:
+                command: "git push heroku master"
+                options: 
+                    stdout: true
+                    execOptions: cwd: "build"
   
         watch:
             coffee:
