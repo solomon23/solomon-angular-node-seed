@@ -39,7 +39,7 @@ npm install
 grunt server
 ````
 
-Note: If you copy the contents of the pull be sure to copy the .hidde files as well
+Note: If you copy the contents of the pull be sure to copy the .hidden files as well
 
 Navigate to `http://localhost:3000` and confirm site is functioning
 
