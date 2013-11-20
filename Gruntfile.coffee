@@ -55,7 +55,7 @@ module.exports = (grunt) ->
 
             for key, value of map
                 value = cdn + value
-                contents = contents.replace key, value
+                contents = contents.replace new RegExp(key, "g"), value
             
             grunt.file.write file, contents
             console.log "File #{file} image urls updated"
