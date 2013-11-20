@@ -102,6 +102,14 @@ Subsequent deploys to heroku can use the same site
 
 ````
 grunt build
+grunt deploy
+````
+
+or manually with
+
+
+````
+grunt build
 cd ./build
 git add .
 git commit -am "New"
