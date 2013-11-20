@@ -44,9 +44,7 @@ module.exports = (grunt) ->
 
     # Replaces all the image urls with the static content version including the cdn url
     grunt.registerTask "fixcssimges", "Fixes the css image urls", ->
-        cdn = require("./build/server/config").cdn
-        return unless cdn?.length > 0
-
+        cdn    = require("./build/server/config").cdn
         cssDir = "./build/public/css"
         map    = grunt.file.readJSON "./build/server/assets.json"
         files  = Fs.readdirSync cssDir
