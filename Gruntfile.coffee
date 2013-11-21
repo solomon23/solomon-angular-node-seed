@@ -199,8 +199,9 @@ module.exports = (grunt) ->
             files:
                 src: [
                     "./build/public/js/**/*.js"
-                    "./build/public/lib/**/*.js"                    
-                    "./build/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}"                    
+                    "./build/public/lib/**/*.js"
+                    "./build/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}"
+                    "./build/public/fonts/**/*.{eot,svg,ttf,woff}"
                 ]
             css:
                 src:[
@@ -260,9 +261,9 @@ module.exports = (grunt) ->
         aws: grunt.file.readJSON process.env.HOME + "/aws.json"
         s3:
             options: 
-                key: '<%= aws.key %>'
-                secret: '<%= aws.secret %>'
-                bucket: '<%= aws.bucket %>',                
+                key: '<%= aws.test.key %>'
+                secret: '<%= aws.test.secret %>'
+                bucket: '<%= aws.test.bucket %>',                
                 access: 'public-read'
                 gzipExclude: [".jpg", ".jpeg", ".png", ".gif", ".eot", ".svg", ".ttf", ".woff"]
                 headers:
