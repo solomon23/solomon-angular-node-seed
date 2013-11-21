@@ -13,7 +13,7 @@ config =
     ]
 
 prod = 
-    cdn: ""
+    cdn: "http://s3.amazonaws.com/lithe-playground/public"
 
 if process.env.NODE_ENV is "production"
     _.extend config, prod
