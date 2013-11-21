@@ -43,7 +43,7 @@ require [
     "js/directives/app-version"
 
     # plugins
-    "lib/fastclick.js"
+    "lib/fastclick"
 
 ], (angular) ->
     angular.bootstrap $("html"), ["myApp"]
