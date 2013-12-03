@@ -78,9 +78,11 @@ Create a file called `~/aws.json` in your home folder:
 
 ````
 {
-    "key": "xxx",
-    "secret": "xxx",
-    "bucket": "xxx"
+	"test":{
+	    "key": "...",
+	    "secret": "...",
+	    "bucket": "..."
+	}
 }
 ````
 
