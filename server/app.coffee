@@ -1,7 +1,8 @@
-express = require "express"
-http    = require "http"
-path    = require "path"
-routes  = require "./routes"
+express  = require "express"
+http     = require "http"
+path     = require "path"
+routes   = require "./routes"
+security = require "./middleware/security"
 
 app = express()
 cwd = process.cwd()
@@ -14,6 +15,7 @@ app.configure ->
     app.use express.bodyParser()
     app.use express.methodOverride()
     app.use express.compress()
+    app.use security.jsonSecurity    
 
     if process.env.NODE_ENV isnt "production"
         # used to grab the coffee and map files
