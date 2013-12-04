@@ -4,11 +4,14 @@ define ["appModule"], (appModule) ->
         $scope.page = "page2"
 
         # this will fire an api request on page load
-        remote.resourceRequest().get (data) ->
-            $scope.myData = data.message            
-
+        # this returns an object that will update itself once the data
+        # is ready so it can be used directly in the page
+        $scope.myData = remote.resourceRequest().get()
+        
+        # myData will be $resolved when the data is ready
+        $scope.$watch "myData.$resolved", (val) ->
             # mark the page as complete
-            $scope.pageDone()
+            $scope.pageDone() if val
 
     # register the controller
     appModule.controller "Page2Controller", [
