@@ -43,7 +43,8 @@ exp.requireConfig =
         "lib/bootstrap/typeahead":  ["jquery"]
 
         # angular
-        "lib/angular/angular-route": ["angular"]
+        "lib/angular/angular-route":    ["angular"]
+        "lib/angular/angular-resource": ["angular"]
         "appModule":                    ["angular"]
         "templates":                    ["appModule"]
 

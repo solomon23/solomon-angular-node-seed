@@ -1,21 +1,20 @@
 define ["appModule"], (appModule) ->
-    Page1Controller = ($scope, remote) ->
-        _init = ->
+    Page1Controller = ($scope, $log, remote, remoteData) ->
+        _init = ->            
             $scope.page = "page1"
 
-            # gets data from a remote server
-            remote.getData()
-            .success (data) ->
-                $scope.myData = data.message
+            # this data is retrieved by the route and blocks page loading until it's ready
+            $scope.myData = remoteData.message
 
-                # mark the page as complete
-                $scope.pageDone()
+            $scope.pageDone()            
 
         _init()
 
     # register the controller
     appModule.controller "Page1Controller", [
         "$scope"
-        "remote"    
+        "$log"
+        "remote"
+        "remoteData"
         Page1Controller
     ]

@@ -3,6 +3,7 @@ define ["angular"], (angular) ->
     # setup the app
     angular.module("myApp", [
         "ngRoute"
+        "ngResource"
     ]).
     config ["$locationProvider", ($locationProvider) ->
         # add app config here

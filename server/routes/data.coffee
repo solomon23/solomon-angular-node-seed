@@ -1,2 +1,2 @@
 exports.get = (req, res) ->
-    res.send message: "You Got Data"
+    res.json message: "You Got Data"

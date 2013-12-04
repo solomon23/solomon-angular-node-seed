@@ -22,6 +22,7 @@ require [
     "lib/bootstrap/transition"
 
     "lib/angular/angular-route"
+    "lib/angular/angular-resource"
     
     # the routes
     "js/routes"
