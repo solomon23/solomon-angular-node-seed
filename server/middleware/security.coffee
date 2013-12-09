@@ -13,7 +13,7 @@ exports.jsonSecurity = (req, res, next) ->
         if req.method is "GET"
             json = if isNaN arguments[0] then arguments[0] else arguments[1]
 
-            # this is only need for array types
+            # this is only affects array types
             if _.isArray json
                 res.set "Content-Type", "Content-Type:application/json; charset=utf-8"
 
