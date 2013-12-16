@@ -228,9 +228,10 @@ module.exports = (grunt) ->
 
         # create a map file for all the assets
         filerev_assets:
-            options:
-                cwd: "build/public"
-                dest: "build/server/assets.json"
+            prod:
+                options:
+                    cwd: "build/public"
+                    dest: "build/server/assets.json"
 
         cssmin:
             minify:

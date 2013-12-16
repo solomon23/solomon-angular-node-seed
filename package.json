@@ -36,7 +36,7 @@
     "grunt-server-mocha": "*",
     "grunt-angular-templates": "*",
     "grunt-filerev": "~0.2.0",
-    "grunt-filerev-assets": "*",
+    "grunt-filerev-assets": "~0.3.0",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-copy": "*",
     "grunt-s3": "~0.2.0-alpha.3",
