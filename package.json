@@ -34,7 +34,7 @@
     "grunt-contrib-less": "*",
     "grunt-contrib-requirejs": "*",
     "grunt-server-mocha": "*",
-    "grunt-angular-templates": "*",
+    "grunt-angular-templates": "~0.5.1",
     "grunt-filerev": "~0.2.0",
     "grunt-filerev-assets": "~0.3.0",
     "grunt-contrib-cssmin": "*",

@@ -293,7 +293,7 @@ module.exports = (grunt) ->
         ngtemplates:
             myApp:
                 cwd: "./client"
-                src: "./partials/**/*.html"
+                src: "partials/**/*.html"
                 dest:"./public/js/templates.js"
                 options:
                     htmlmin: collapseWhitespace: true, collapseBooleanAttributes: true
