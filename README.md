@@ -96,7 +96,7 @@ prod =
 ### Deploy to s3 with
 
 `
-grunt s3:prod
+grunt static
 `
 
 ## Redeploy to heroku
