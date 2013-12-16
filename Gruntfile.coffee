@@ -9,6 +9,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-cssmin"
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-clean"
+    grunt.loadNpmTasks "grunt-contrib-compress"
 
     grunt.loadNpmTasks "grunt-newer"
     grunt.loadNpmTasks "grunt-nodemon"
@@ -16,9 +17,9 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-angular-templates"
     grunt.loadNpmTasks "grunt-filerev"
     grunt.loadNpmTasks "grunt-filerev-assets"
-    grunt.loadNpmTasks "grunt-s3"
     grunt.loadNpmTasks "grunt-env"
     grunt.loadNpmTasks "grunt-shell"
+    grunt.loadNpmTasks "grunt-aws-s3"
 
     
     grunt.registerTask "default", ["build"]
@@ -63,6 +64,21 @@ module.exports = (grunt) ->
     grunt.registerTask "server", ["builddev", "concurrent"]
 
     grunt.registerTask "deploy", ["shell:gitadd", "shell:gitcommit", "shell:gitpush"]
+
+    grunt.registerTask "static", [
+        # gzip the static content
+        "compress:js"
+        "compress:css"
+
+        # copy the zip files over the old ones
+        "copy:zipfiles"
+
+        # clean up the temp ones
+        "clean:zipped"
+
+        # copy them up
+        "aws_s3:prod"
+    ]
 
     grunt.registerTask "builddev", [
         # removing the public dir
@@ -144,6 +160,8 @@ module.exports = (grunt) ->
                 }]
 
             temp: ["build/temp"]
+
+            zipped: ["build/**/*.gz"]
 
             public: ["public"]
 
@@ -237,15 +255,38 @@ module.exports = (grunt) ->
                     # font files
                     {expand: true, src: "fonts/**", cwd: "client/", dest: "./build/public/"}
                 ]
+
             server:
                 files: [
                     {src: ["server/**"], dest: "build/"}
                 ]
+
             heroku: 
                 files: [
                     {src: ["Procfile"], dest: "build/"}
                     {src: "package.json", dest: "build/package.json"}
                     {src: ".buildpacks", dest: "build/.buildpacks"}
+                ]
+
+            zipfiles:
+                files: [
+                    # js files
+                    {
+                        expand: true
+                        src: "./build/public/js/**/*.gz"
+                        dest: "."
+                        rename: (dest, src) ->
+                            src.replace ".gz", ""
+                    }
+
+                    # css files
+                    {
+                        expand: true
+                        src: "./build/public/css/**/*.gz"
+                        dest: "."
+                        rename: (dest, src) ->
+                            src.replace ".gz", ""
+                    }
                 ]
       
         ngtemplates:
@@ -259,26 +300,45 @@ module.exports = (grunt) ->
                         "define(['appModule'], function(appModule) {appModule.run(['$templateCache', function($templateCache){ #{script} }])});"
 
         aws: grunt.file.readJSON process.env.HOME + "/aws.json"
-        s3:
-            options: 
-                key: '<%= aws.test.key %>'
-                secret: '<%= aws.test.secret %>'
-                bucket: '<%= aws.test.bucket %>',                
-                access: 'public-read'
-                gzipExclude: [".jpg", ".jpeg", ".png", ".gif", ".eot", ".svg", ".ttf", ".woff"]
-                headers:
-                    # Two Year cache policy (1000 * 60 * 60 * 24 * 730)
-                    "Cache-Control": "public, max-age=630720000"
-                    "Expires": new Date(Date.now() + 63072000000).toUTCString()
+        aws_s3:
+            options:
+                accessKeyId: "<%= aws.test.key %>"
+                secretAccessKey: "<%= aws.test.secret %>"
+                bucket: "<%= aws.test.bucket %>"
+                # region: "us-west-2"
+                uploadConcurrency: 5 
+                downloadConcurrency: 5
+                differential: true
+                maxRetries: 4
 
             prod:
-                sync:[
-                    src: "build/public/**"
+                files:[
+                    expand: true
+                    src: "**"
                     dest: "public/"
                     # make sure the wildcard paths are fully expanded in the dest
-                    rel: "build/public"
-                    options: gzip: true
+                    cwd: "build/public/"                    
+                    
+                    params: 
+                        "CacheControl": "public, max-age=630720000"
+                        "ContentEncoding": "gzip"
+                        "Expires": new Date(Date.now() + 63072000000);
                 ]
+
+        compress:
+            js: 
+                options: mode: "gzip"
+                expand: true
+                cwd: "build/public/js"
+                src: ['**']
+                dest: "build/public/js"
+
+            css: 
+                options: mode: "gzip"
+                expand: true
+                cwd: "build/public/css"
+                src: ['**']
+                dest: "build/public/css"
 
         shell: 
             gitadd:

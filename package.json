@@ -35,12 +35,14 @@
     "grunt-contrib-requirejs": "*",
     "grunt-server-mocha": "*",
     "grunt-angular-templates": "*",
-    "grunt-filerev": "*",
+    "grunt-filerev": "~0.2.0",
     "grunt-filerev-assets": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-copy": "*",
     "grunt-s3": "~0.2.0-alpha.3",
     "grunt-env": "~0.4.0",
-    "grunt-shell": "~0.6.0"
+    "grunt-shell": "~0.6.0",
+    "grunt-aws-s3": "~0.7.2",
+    "grunt-contrib-compress": "~0.5.3"
   }
 }
