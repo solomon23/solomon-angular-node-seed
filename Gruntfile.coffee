@@ -31,7 +31,7 @@ module.exports = (grunt) ->
 
         # client build config needs some extra items
         _.extend requireConfig,
-            almond:   true
+            name:     "./lib/almond"
             baseUrl:  "build/temp"
             include:  ["js/main.js"]
             out:      "./build/public/js/combined.js"
