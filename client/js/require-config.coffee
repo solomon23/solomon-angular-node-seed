@@ -2,13 +2,14 @@ exp = window ? exports
 
 exp.requireConfig =
 
-    baseUrl: if staticConfig? then staticConfig.cdn + "/" else "/"
+    baseUrl: if globals?.staticConfig? then globals.staticConfig.cdn + "/" else "/"
 
     # if we use the order plugin, we only need a shim for underscore
     paths:
         jquery:     "lib/jquery-1.10.2"
         underscore: "lib/underscore"
         angular:    "lib/angular/angular"
+        config:      "js/config"
 
         # angular services
         appModule: "js/app"
@@ -24,7 +25,7 @@ exp.requireConfig =
 
         angular:
             exports: "angular"
-            deps:    ["jquery"]
+            deps:    ["jquery", "config"]
             init:    -> angular            
         
         # for bootstrap

@@ -2,6 +2,7 @@ requirejs.config requireConfig if requireConfig?
 
 require [
     "angular"
+    "config"
     "jquery"
     "underscore"
     "appModule"
@@ -30,6 +31,7 @@ require [
     # services
     "js/services/version"
     "js/services/remote"
+    "js/services/config"
 
     # controllers
     "js/controllers/root"

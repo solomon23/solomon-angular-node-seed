@@ -9,10 +9,12 @@
         }
     </style>
     <script>
-        staticConfig = {
-            mapping: <%- JSON.stringify(map) %>,
-            cdn: '<%- config.cdn %>'
-        }        
+        var globals = {
+            staticConfig: {
+                mapping: <%- JSON.stringify(map) %>,
+                cdn: '<%- config.cdn %>'
+            }
+        }
     </script>
     <link rel="stylesheet" ng-href="{{'/css/app.css' | static}}" />
     <meta name="fragment" content="!" />

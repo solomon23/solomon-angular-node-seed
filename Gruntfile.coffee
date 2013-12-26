@@ -27,12 +27,11 @@ module.exports = (grunt) ->
     # combine the javascript files using the requirejs config
     grunt.registerTask "jscombine", "Require.Js optimization", ->
         config = require "./client/js/require-config.coffee"
-
         requireConfig = config.requireConfig
 
         # client build config needs some extra items
         _.extend requireConfig,
-            name:     './lib/almond'
+            almond:   true
             baseUrl:  "build/temp"
             include:  ["js/main.js"]
             out:      "./build/public/js/combined.js"
@@ -61,6 +60,17 @@ module.exports = (grunt) ->
             grunt.file.write file, contents
             console.log "File #{file} image urls updated"
 
+    # generates the client config from the server config
+    grunt.registerTask "buildConfig", "Building client config", ->
+        env = process.env.BUILD_ENV
+        process.env.BUILD_ENV = "client"
+
+        config  = require "./server/config"
+        buildTo = if process.env.NODE_ENV is "production" then "build/temp" else "public"        
+
+        Fs.writeFileSync "./#{buildTo}/js/config.js", "globals.config = #{JSON.stringify(config, null, 4)};"
+        process.env.BUILD_ENV = env
+
     grunt.registerTask "server", ["builddev", "concurrent"]
 
     grunt.registerTask "deploy", ["shell:gitadd", "shell:gitcommit", "shell:gitpush"]
@@ -81,11 +91,17 @@ module.exports = (grunt) ->
     ]
 
     grunt.registerTask "builddev", [
+        # set us to development
+        "env:dev"
+
         # removing the public dir
         "clean:public"
 
         # turn the client coffee into js into the public folder
         "coffee:dev"
+
+        # generate the client config
+        "buildConfig"
 
         # compile the less CSS
         "less:dev"
@@ -96,7 +112,7 @@ module.exports = (grunt) ->
 
     grunt.registerTask "build", [
         # set our environment to production
-        "env"
+        "env:prod"
 
         # remove build folder
         "clean:build"
@@ -106,6 +122,9 @@ module.exports = (grunt) ->
 
         # compile the templates
         "ngtemplates"
+
+        # generate the client config
+        "buildConfig"
 
         # copy the templates and lib to build/temp
         "copy:client"
@@ -148,6 +167,9 @@ module.exports = (grunt) ->
         env:
             prod:
                 NODE_ENV : "production"
+
+            dev:
+                NODE_ENV : "development"
 
         clean:
             build: 
@@ -362,8 +384,8 @@ module.exports = (grunt) ->
   
         watch:
             coffee:
-                files: ["**/*.coffee"]
-                tasks: ["newer:coffee:dev"]
+                files: ["**/*.coffee", "./server/config/*.coffee"]
+                tasks: ["newer:coffee:dev", "buildConfig"]
 
             less:
                 files: ["./client/less/**/*.less"]
