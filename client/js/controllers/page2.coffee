@@ -1,6 +1,5 @@
 define ["appModule"], (appModule) ->
-    
-    Page2Controller = ($scope, remote) ->
+    appModule.controller "Page2Controller", ($scope, remote) ->
         $scope.page = "page2"
 
         # this will fire an api request on page load
@@ -12,10 +11,3 @@ define ["appModule"], (appModule) ->
         $scope.$watch "myData.$resolved", (val) ->
             # mark the page as complete
             $scope.pageDone() if val
-
-    # register the controller
-    appModule.controller "Page2Controller", [
-        "$scope"
-        "remote"
-        Page2Controller
-    ]

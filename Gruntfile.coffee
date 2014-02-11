@@ -20,7 +20,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-env"
     grunt.loadNpmTasks "grunt-shell"
     grunt.loadNpmTasks "grunt-aws-s3"
-
+    grunt.loadNpmTasks "grunt-ngmin"
     
     grunt.registerTask "default", ["build"]
     
@@ -35,6 +35,10 @@ module.exports = (grunt) ->
             baseUrl:  "build/temp"
             include:  ["js/main.js"]
             out:      "./build/public/js/combined.js"
+            onBuildRead: (moduleName, path, contents) ->
+                ngmin = require "ngmin"
+                # console.log(ngmin);
+                ngmin.annotate contents
 
         grunt.config.set "requirejs",
             optimize:
@@ -120,47 +124,50 @@ module.exports = (grunt) ->
         # turn the client coffee into js in the build/temp
         "coffee:prod"
 
-        # compile the templates
+        # allow the files to be minified
+        # "ngmin:js"
+
+        # # compile the templates
         "ngtemplates"
 
-        # generate the client config
+        # # generate the client config
         "buildConfig"
 
-        # copy the templates and lib to build/temp
+        # # copy the templates and lib to build/temp
         "copy:client"
 
-        # combine all the js files
+        # # combine all the js files
         "jscombine"
 
-        # compile the css
-        "less:prod"
+        # # compile the css
+        # "less:prod"
 
-        # minify the css    
-        "cssmin"
+        # # minify the css    
+        # "cssmin"
 
-        # set versions on all the files
-        "filerev:files"
+        # # set versions on all the files
+        # "filerev:files"
 
-        # create a server map
-        "filerev_assets"
+        # # create a server map
+        # "filerev_assets"
 
-        # copy over server coffee files
-        "copy:server"
+        # # copy over server coffee files
+        # "copy:server"
 
-        # use cdn image urls in the css
-        "fixcssimges"
+        # # use cdn image urls in the css
+        # "fixcssimges"
 
-        # rev the css file after it's been updated
-        "filerev:css"
+        # # rev the css file after it's been updated
+        # "filerev:css"
 
-        # write out the assets again but with the css
-        "filerev_assets"
+        # # write out the assets again but with the css
+        # "filerev_assets"
 
-        # copy over deploy files
-        "copy:heroku"
+        # # copy over deploy files
+        # "copy:heroku"
 
-        # remove the temp files
-        "clean:temp"
+        # # remove the temp files
+        # "clean:temp"
     ]
 
     grunt.initConfig
@@ -347,6 +354,13 @@ module.exports = (grunt) ->
                         "ContentEncoding": "gzip"
                         "Expires": new Date(Date.now() + 63072000000);
                 ]
+
+        ngmin:
+            js:
+                expand: true,
+                cwd: 'build/temp',
+                src: ['js/**/*.js'],
+                dest: 'temp'
 
         compress:
             js: 

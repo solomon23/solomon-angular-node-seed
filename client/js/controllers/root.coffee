@@ -1,6 +1,5 @@
 define ["appModule", "underscore", "templates"], (appModule, _) ->
-    
-    RootController = ($scope, $route, $location, $timeout, $window) ->
+    appModule.controller "rootController", ($scope, $route, $location, $timeout, $window) ->
         _init = ->
             $scope.location = $location
 
@@ -14,13 +13,3 @@ define ["appModule", "underscore", "templates"], (appModule, _) ->
                 $window.callPhantom() if _.isFunction $window.callPhantom
 
         _init()
-
-    # register the controller
-    appModule.controller "rootController", [
-        "$scope" 
-        "$route"
-        "$location"
-        "$timeout"
-        "$window"
-        RootController
-    ]
