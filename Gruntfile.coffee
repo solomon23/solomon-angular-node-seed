@@ -20,6 +20,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-env"
     grunt.loadNpmTasks "grunt-shell"
     grunt.loadNpmTasks "grunt-aws-s3"
+    grunt.loadNpmTasks "grunt-requiregen"
 
     
     grunt.registerTask "default", ["build"]
@@ -362,6 +363,27 @@ module.exports = (grunt) ->
                 cwd: "build/public/css"
                 src: ['**']
                 dest: "build/public/css"
+
+        requiregen:
+            main:
+                cwd: './public/'
+                # require json2 and html5shiv are loaded conditionally in the html file
+                src: ['js/**/*.js']
+                options:
+                    order: [
+                    # order is a list of minimatch 'glob' like matching
+                    # modules, requiregen will generate the correct shim
+                    # to load modules in this order
+                    # if a module has been loaded in previous layers, it won't be loaded again
+                    # so that you can use a more generic minimatch expression in the end
+                        'libs/jquery'
+                        'libs/angular' # AngularJS needs jQuery before or will use internal jqLite
+                        'libs/*'       # remaining libs before app
+                        'app'          # app needs libs
+                        '{routes,views,config,*/**}'  # remaining AngularJS components
+                        'run'          # run has to be in the end, because it is triggering angular's own DI
+                    ]
+                dest: 'public/js/require-gen-config.js'
 
         shell: 
             gitadd:

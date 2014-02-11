@@ -43,6 +43,7 @@
     "grunt-env": "~0.4.0",
     "grunt-shell": "~0.6.0",
     "grunt-aws-s3": "~0.7.2",
-    "grunt-contrib-compress": "~0.5.3"
+    "grunt-contrib-compress": "~0.5.3",
+    "grunt-requiregen": "~0.1.0"
   }
 }
