@@ -75,7 +75,8 @@ heroku open
 
 A browser should open with your new site functioning
 
-## Static content ( optional you can point your CDN to heroku instead )
+## Static content
+### OPTIONAL it's recommended to point your CDN directly to your frontends instead.
 
 Create a file called `~/aws.json` in your home folder:
 
