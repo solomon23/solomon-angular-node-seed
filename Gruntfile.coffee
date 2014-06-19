@@ -218,10 +218,12 @@ module.exports = (grunt) ->
                 options: yuicompress: true
                 files:
                     "./public/css/app.css": "./client/less/app.less"
+                    "./public/css/bootstrap.css": "./client/bower/bootstrap/less/bootstrap.less"
 
             prod:
                 files:
                     "./build/temp/css/app.css": "./client/less/app.less"
+                    "./build/temp/css/bootstrap.css": "./client/bower/bootstrap/less/bootstrap.less"
 
         # put hash numbers on the assets
         filerev:
@@ -247,7 +249,7 @@ module.exports = (grunt) ->
             minify:
                 expand: true
                 cwd: "build/temp"
-                src: ["css/app.css"]
+                src: ["css/*.css"]
                 dest: "build/public"
                 ext: ".css"
 
