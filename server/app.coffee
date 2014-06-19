@@ -26,11 +26,13 @@ app.configure ->
     if process.env.NODE_ENV isnt "production"
         # used to grab the coffee and map files
         app.use express.static path.join cwd, "client"
-    else
-        app.use express.logger()
 
     # stores the css and image files
     app.use express.static path.join cwd, "public"
+
+    # putting the logger after the static will only log the api requests
+    if process.env.NODE_ENV is "production"
+        app.use express.logger()
 
     # route is last to allow static files to be picked up
     app.use app.router
