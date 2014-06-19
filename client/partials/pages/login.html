@@ -1,6 +1,7 @@
 <div class="page-login">
     <form class="form-signin" name="form" ng-submit="login()">
         <h2 class="form-signin-heading">Please sign in</h2>
+        <div>[hint] login: test password: test</div>
         <input type="text" class="form-control" ng-model="user.name" placeholder="Email address" required autofocus>
         <input type="password" class="form-control" ng-model="user.pass" placeholder="Password" required>
         <p class="error-message" ng-show="error">
