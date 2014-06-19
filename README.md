@@ -4,7 +4,7 @@ Solomon's Angular-Node Seed
 This is a seed project to build a production ready website containing
 
 + [AngularJS](http://angularjs.org/)
-+ [RequireJS](http://requirejs.org/)
++ [Bower](http://bower.io/)
 + [Node.JS](http://nodejs.org/)
 + [LESS](http://lesscss.org/)
 + [Bootstrap](http://getbootstrap.com/)
@@ -19,6 +19,7 @@ This is a seed project to build a production ready website containing
 Please have the following before building
 
 + [Node.JS](http://nodejs.org/)
++ [Bower](http://bower.io/)
 + [Grunt](http://gruntjs.com/)
 + [PhantomJS](http://phantomjs.org/)
 
@@ -36,7 +37,9 @@ Optional tools that make the process smoother
 
 ````
 git clone https://github.com/solomon23/solomon-angular-node-seed.git
+cd solomon-angular-node-seed
 npm install
+bower install
 grunt server
 ````
 
@@ -72,7 +75,7 @@ heroku open
 
 A browser should open with your new site functioning
 
-## Static content
+## Static content ( optional you can point your CDN to heroku instead )
 
 Create a file called `~/aws.json` in your home folder:
 
