@@ -8,7 +8,6 @@ appModule.controller "Page1Controller", [
             # this data is retrieved by the route and blocks page loading until it's ready
             $scope.myData = remoteData.message
 
-
             remote.secureGet()
                 .success (res) ->
                     $scope.secureData = res.message

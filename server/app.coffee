@@ -15,7 +15,11 @@ app.configure ->
     app.use express.bodyParser()
     app.use express.methodOverride()
     app.use express.cookieParser()
-    app.use express.cookieSession secret: (process.env.EXPRESS_COOKIE_PASSPHRASE or "todo"), cookie: maxAge: 60 * 60 * 1000 * 8
+    app.use express.cookieSession
+        secret: (process.env.EXPRESS_COOKIE_PASSPHRASE or "todo")
+        cookie:
+            maxAge: 60 * 60 * 1000 * 8
+            httpOnly: false
     app.use express.compress()
     app.use jsonsecurity.munge
 

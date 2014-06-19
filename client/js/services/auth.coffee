@@ -1,8 +1,8 @@
 # add the service
-appModule.service "auth", ["$http", "$resource",
+appModule.service "auth", ["$http", "$resource", "$cookieStore",
 
     class
-        constructor: (@$http, @$resource) ->
+        constructor: (@$http, @$resource, @$cookieStore) ->
             @user = globals.user
 
         isAuthed: -> @user?
@@ -14,4 +14,8 @@ appModule.service "auth", ["$http", "$resource",
                     @user =
                         login: res.login
                         id: res.id
+
+        logout: ->
+            @user = null
+            @$cookieStore.remove "connect.sess"
 ]

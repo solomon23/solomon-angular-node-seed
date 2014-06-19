@@ -32,7 +32,7 @@ appModule.config ["$routeProvider", ($routeProvider) ->
     $routeProvider.when "/admin",
         templateUrl: "partials/pages/admin.html"
         controller: "AdminController"
-        resolve: auth: requiresAuth
+        resolve: authenticate: requiresAuth
 
     $routeProvider.otherwise redirectTo: "/"
 ]
