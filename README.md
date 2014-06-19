@@ -69,6 +69,7 @@ git push heroku master
 
 heroku ps:scale web=1
 heroku config:set NODE_ENV=production
+heroku config:set EXPRESS_COOKIE_PASSPHRASE="<secret passphrase>"
 heroku config:set PATH="/usr/local/bin:/usr/bin:/bin:/app/vendor/phantomjs/bin"
 
 heroku open
