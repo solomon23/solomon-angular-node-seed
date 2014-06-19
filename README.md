@@ -13,6 +13,7 @@ This is a seed project to build a production ready website containing
 + SEO ( using phantomjs )
 + Versioned/minified/compressed static content and cdn deployment
 + Easy production deployment
++ Secure site authentication using salts and hashes on client and server
 
 ## Pre-reqs
 
