@@ -1,13 +1,15 @@
-define ["appModule"], (appModule) ->
-    # add the service
-    appModule.service "remote", ["$http", "$resource", 
+# add the service
+appModule.service "remote", ["$http", "$resource",
 
-        class
-            constructor: (@$http, @$resource) ->
+    class
+        constructor: (@$http, @$resource) ->
 
-            httpRequest: ->
-                @$http method: "GET", url: "/api/getdata"
+        httpRequest: ->
+            @$http.get "/api/getdata"
 
-            resourceRequest: ->
-                @$resource "/api/getdata"
-    ]
+        resourceRequest: ->
+            @$resource "/api/getdata"
+
+        secureGet: ->
+            @$http.get "/api/getsecuredata"
+]

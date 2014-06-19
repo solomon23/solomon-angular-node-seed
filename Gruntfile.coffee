@@ -4,12 +4,13 @@ Fs = require "fs"
 module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-coffee"
     grunt.loadNpmTasks "grunt-contrib-less"
-    grunt.loadNpmTasks "grunt-contrib-requirejs"
     grunt.loadNpmTasks "grunt-contrib-watch"
     grunt.loadNpmTasks "grunt-contrib-cssmin"
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-clean"
     grunt.loadNpmTasks "grunt-contrib-compress"
+    grunt.loadNpmTasks "grunt-contrib-concat"
+    grunt.loadNpmTasks "grunt-contrib-uglify"
 
     grunt.loadNpmTasks "grunt-newer"
     grunt.loadNpmTasks "grunt-nodemon"
@@ -20,27 +21,9 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-env"
     grunt.loadNpmTasks "grunt-shell"
     grunt.loadNpmTasks "grunt-aws-s3"
+    grunt.loadNpmTasks "grunt-usemin"
 
-    
     grunt.registerTask "default", ["build"]
-    
-    # combine the javascript files using the requirejs config
-    grunt.registerTask "jscombine", "Require.Js optimization", ->
-        config = require "./client/js/require-config.coffee"
-        requireConfig = config.requireConfig
-
-        # client build config needs some extra items
-        _.extend requireConfig,
-            name:     "./lib/almond"
-            baseUrl:  "build/temp"
-            include:  ["js/main.js"]
-            out:      "./build/public/js/combined.js"
-
-        grunt.config.set "requirejs",
-            optimize:
-                options: requireConfig
-
-        grunt.task.run "requirejs"
 
     # Replaces all the image urls with the static content version including the cdn url
     grunt.registerTask "fixcssimges", "Fixes the css image urls", ->
@@ -56,7 +39,7 @@ module.exports = (grunt) ->
             for key, value of map
                 value = cdn + value
                 contents = contents.replace new RegExp(key, "g"), value
-            
+
             grunt.file.write file, contents
             console.log "File #{file} image urls updated"
 
@@ -66,7 +49,7 @@ module.exports = (grunt) ->
         process.env.BUILD_ENV = "client"
 
         config  = require "./server/config"
-        buildTo = if process.env.NODE_ENV is "production" then "build/temp" else "public"        
+        buildTo = if process.env.NODE_ENV is "production" then "build/temp" else "public"
 
         Fs.writeFileSync "./#{buildTo}/js/config.js", "globals.config = #{JSON.stringify(config, null, 4)};"
         process.env.BUILD_ENV = env
@@ -129,13 +112,19 @@ module.exports = (grunt) ->
         # copy the templates and lib to build/temp
         "copy:client"
 
-        # combine all the js files
-        "jscombine"
+        # read the static files
+        "useminPrepare"
+
+        # combine them
+        "concat"
+
+        # copy them
+        "uglify:concat"
 
         # compile the css
         "less:prod"
 
-        # minify the css    
+        # minify the css
         "cssmin"
 
         # set versions on all the files
@@ -172,7 +161,7 @@ module.exports = (grunt) ->
                 NODE_ENV : "development"
 
         clean:
-            build: 
+            build:
                 files: [{
                     dot: true
                     src: [
@@ -211,7 +200,7 @@ module.exports = (grunt) ->
                 src: ["./**/*.coffee"]
                 dest: "public"
                 ext: ".js"
-            
+
             prod:
                 options:
                     bare: true
@@ -239,7 +228,6 @@ module.exports = (grunt) ->
             files:
                 src: [
                     "./build/public/js/**/*.js"
-                    "./build/public/lib/**/*.js"
                     "./build/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}"
                     "./build/public/fonts/**/*.{eot,svg,ttf,woff}"
                 ]
@@ -266,8 +254,8 @@ module.exports = (grunt) ->
         copy:
             client:
                 files: [
-                    # external lib files
-                    {expand: true, src: "lib/**/*.js", cwd: "client/", dest: "./build/temp/"}
+                    # bower files
+                    {expand: true, src: "bower/**/*.js", cwd: "client/", dest: "./build/temp/"}
 
                     # combined template file
                     {src: "public/js/templates.js", dest: "build/temp/js/templates.js"}
@@ -284,7 +272,7 @@ module.exports = (grunt) ->
                     {src: ["server/**"], dest: "build/"}
                 ]
 
-            heroku: 
+            heroku:
                 files: [
                     {src: ["Procfile"], dest: "build/"}
                     {src: "package.json", dest: "build/package.json"}
@@ -311,7 +299,7 @@ module.exports = (grunt) ->
                             src.replace ".gz", ""
                     }
                 ]
-      
+
         ngtemplates:
             myApp:
                 cwd: "./client"
@@ -320,7 +308,7 @@ module.exports = (grunt) ->
                 options:
                     htmlmin: collapseWhitespace: true, collapseBooleanAttributes: true
                     bootstrap:  (module, script) ->
-                        "define(['appModule'], function(appModule) {appModule.run(['$templateCache', function($templateCache){ #{script} }])});"
+                        "appModule.run(['$templateCache', function($templateCache){ #{script} }]);"
 
         aws: grunt.file.readJSON process.env.HOME + "/aws.json"
         aws_s3:
@@ -329,7 +317,7 @@ module.exports = (grunt) ->
                 secretAccessKey: "<%= aws.test.secret %>"
                 bucket: "<%= aws.test.bucket %>"
                 # region: "us-west-2"
-                uploadConcurrency: 5 
+                uploadConcurrency: 5
                 downloadConcurrency: 5
                 differential: true
                 maxRetries: 4
@@ -340,48 +328,67 @@ module.exports = (grunt) ->
                     src: "**"
                     dest: "public/"
                     # make sure the wildcard paths are fully expanded in the dest
-                    cwd: "build/public/"                    
-                    
-                    params: 
+                    cwd: "build/public/"
+
+                    params:
                         "CacheControl": "public, max-age=630720000"
                         "ContentEncoding": "gzip"
                         "Expires": new Date(Date.now() + 63072000000);
                 ]
 
         compress:
-            js: 
+            js:
                 options: mode: "gzip"
                 expand: true
                 cwd: "build/public/js"
                 src: ['**']
                 dest: "build/public/js"
 
-            css: 
+            css:
                 options: mode: "gzip"
                 expand: true
                 cwd: "build/public/css"
                 src: ['**']
                 dest: "build/public/css"
 
-        shell: 
+        useminPrepare:
+            html: "server/views/scripts.ejs"
+            options:
+                dest:    "build/temp/"
+                staging: "build/temp"
+                root:    "build/temp"
+
+        usemin:
+            html: ['build/temp/{,*/}*.html']
+            options:
+                assetsDirs: ['build/temp']
+
+        uglify:
+            concat:
+                files: [
+                    {"./build/public/js/vendor.js": ["./build/temp/concat/js/vendor.js"]}
+                    {"./build/public/js/combined.js": ["./build/temp/concat/js/combined.js"]}
+                ]
+
+        shell:
             gitadd:
                 command: "git add ."
-                options: 
+                options:
                     stdout: true
                     execOptions: cwd: "build"
 
             gitcommit:
                 command: "git commit -am \"new\""
-                options: 
+                options:
                     stdout: true
                     execOptions: cwd: "build"
 
             gitpush:
                 command: "git push heroku master"
-                options: 
+                options:
                     stdout: true
                     execOptions: cwd: "build"
-  
+
         watch:
             coffee:
                 files: ["**/*.coffee", "./server/config/*.coffee"]

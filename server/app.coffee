@@ -1,8 +1,8 @@
-express  = require "express"
-http     = require "http"
-path     = require "path"
-routes   = require "./routes"
-security = require "./middleware/security"
+express      = require "express"
+http         = require "http"
+path         = require "path"
+routes       = require "./routes"
+jsonsecurity = require "./middleware/jsonsecurity"
 
 app = express()
 cwd = process.cwd()
@@ -14,8 +14,10 @@ app.configure ->
     app.use express.favicon()
     app.use express.bodyParser()
     app.use express.methodOverride()
+    app.use express.cookieParser()
+    app.use express.cookieSession secret: (process.env.EXPRESS_COOKIE_PASSPHRASE or "todo"), cookie: maxAge: 60 * 60 * 1000 * 8
     app.use express.compress()
-    app.use security.jsonSecurity    
+    app.use jsonsecurity.munge
 
     if process.env.NODE_ENV isnt "production"
         # used to grab the coffee and map files

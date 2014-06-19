@@ -2,7 +2,7 @@ _ = require "underscore"
 
 ANGULAR_JSON_SECURITY_TOKEN = ")]}',\n"
 
-exports.jsonSecurity = (req, res, next) ->    
+exports.munge = (req, res, next) ->
     oldJson = res.json
 
     # use a custom json response that adds security for angular

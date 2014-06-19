@@ -1,12 +1,7 @@
-define ["appModule"], (appModule) ->
-    
-    # Directive
-    appVersion = (version) ->
+# Directive
+appModule.directive "appVersion", [
+    "version"
+    (version) ->
         (scope, elm, attrs) ->
             elm.text version
-
-    # register the directive
-    appModule.directive "appVersion", [
-        "version"
-        appVersion
-    ]
+]

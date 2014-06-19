@@ -8,5 +8,13 @@
         This is from an http requests before the page loads '<span ng-bind="myData">Loading...</span>'
     </p>
 
+    <p class="secure" ng-show="secureData">
+        {{secureData}}
+    </p>
+
+    <p class="secure" ng-show="errorData">
+        <a href="/login">{{errorData}}</a>
+    </p>
+
     <img ng-src="{{'/images/lauren-cats.jpg' | static}}" />
 </div>

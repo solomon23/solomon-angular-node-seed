@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="utf-8">
     <title>Solomon Seed</title>
@@ -14,6 +14,12 @@
                 mapping: <%- JSON.stringify(map) %>,
                 cdn: '<%- config.cdn %>'
             }
+            <% if (user) { %>
+            , user: {
+                id: '<%-user.id%>',
+                login: '<%-user.login%>'
+            }
+            <%}%>
         }
     </script>
     <link rel="stylesheet" ng-href="{{'/css/app.css' | static}}" />
@@ -51,12 +57,6 @@
         </div>
     </div>
 
-<% if (env === "production") {%>
-    <script src="<%- config.cdn %><%= map.get('/js/combined.js')%>" type="text/javascript"></script>  
-<%}else{%>
-    <script src="<%- config.cdn %>/js/require-config.js" type="text/javascript"></script>
-    <script src="<%- config.cdn %>/lib/require.js" type="text/javascript" data-main="<%- config.cdn %>/js/main.js"></script>
-<%}%>
-
+    <% include scripts %>
 </body>
 </html>
