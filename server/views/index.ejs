@@ -22,8 +22,8 @@
             <%}%>
         }
     </script>
-    <link rel="stylesheet" ng-href="{{'/css/bootstrap.css' | static}}" />
-    <link rel="stylesheet" ng-href="{{'/css/app.css' | static}}" />
+    <link rel="stylesheet" href="<%- config.cdn %><%= map.get('/css/bootstrap.css')%>" />
+    <link rel="stylesheet" href="<%- config.cdn %><%= map.get('/css/app.css')%>" />
     <meta name="fragment" content="!" />
 </head>
 <body ng-cloak ng-controller="rootController">
