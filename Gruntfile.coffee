@@ -8,7 +8,6 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-cssmin"
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-clean"
-    grunt.loadNpmTasks "grunt-contrib-compress"
     grunt.loadNpmTasks "grunt-contrib-concat"
     grunt.loadNpmTasks "grunt-contrib-uglify"
 
@@ -20,7 +19,6 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-filerev-assets"
     grunt.loadNpmTasks "grunt-env"
     grunt.loadNpmTasks "grunt-shell"
-    grunt.loadNpmTasks "grunt-aws-s3"
     grunt.loadNpmTasks "grunt-usemin"
 
     grunt.registerTask "default", ["build"]
@@ -57,21 +55,6 @@ module.exports = (grunt) ->
     grunt.registerTask "server", ["builddev", "concurrent"]
 
     grunt.registerTask "deploy", ["shell:gitadd", "shell:gitcommit", "shell:gitpush"]
-
-    grunt.registerTask "static", [
-        # gzip the static content
-        "compress:js"
-        "compress:css"
-
-        # copy the zip files over the old ones
-        "copy:zipfiles"
-
-        # clean up the temp ones
-        "clean:zipped"
-
-        # copy them up
-        "aws_s3:prod"
-    ]
 
     grunt.registerTask "builddev", [
         # set us to development
@@ -281,27 +264,6 @@ module.exports = (grunt) ->
                     {src: ".buildpacks", dest: "build/.buildpacks"}
                 ]
 
-            zipfiles:
-                files: [
-                    # js files
-                    {
-                        expand: true
-                        src: "./build/public/js/**/*.gz"
-                        dest: "."
-                        rename: (dest, src) ->
-                            src.replace ".gz", ""
-                    }
-
-                    # css files
-                    {
-                        expand: true
-                        src: "./build/public/css/**/*.gz"
-                        dest: "."
-                        rename: (dest, src) ->
-                            src.replace ".gz", ""
-                    }
-                ]
-
         ngtemplates:
             myApp:
                 cwd: "./client"
@@ -311,47 +273,6 @@ module.exports = (grunt) ->
                     htmlmin: collapseWhitespace: true, collapseBooleanAttributes: true
                     bootstrap:  (module, script) ->
                         "appModule.run(['$templateCache', function($templateCache){ #{script} }]);"
-
-        aws: grunt.file.readJSON process.env.HOME + "/aws.json"
-        aws_s3:
-            options:
-                accessKeyId: "<%= aws.test.key %>"
-                secretAccessKey: "<%= aws.test.secret %>"
-                bucket: "<%= aws.test.bucket %>"
-                # region: "us-west-2"
-                uploadConcurrency: 5
-                downloadConcurrency: 5
-                differential: true
-                maxRetries: 4
-
-            prod:
-                files:[
-                    expand: true
-                    src: "**"
-                    dest: "public/"
-                    # make sure the wildcard paths are fully expanded in the dest
-                    cwd: "build/public/"
-
-                    params:
-                        "CacheControl": "public, max-age=630720000"
-                        "ContentEncoding": "gzip"
-                        "Expires": new Date(Date.now() + 63072000000);
-                ]
-
-        compress:
-            js:
-                options: mode: "gzip"
-                expand: true
-                cwd: "build/public/js"
-                src: ['**']
-                dest: "build/public/js"
-
-            css:
-                options: mode: "gzip"
-                expand: true
-                cwd: "build/public/css"
-                src: ['**']
-                dest: "build/public/css"
 
         useminPrepare:
             html: "server/views/scripts.ejs"
