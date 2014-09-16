@@ -30,7 +30,6 @@ Optional tools that make the process smoother
 
 + [Sublime Text](http://www.sublimetext.com/).  Sublime project included.
 + [Heroku](https://www.heroku.com/) account w/ [toolbelt](https://toolbelt.heroku.com/) installed 
-+ [AWS S3](http://aws.amazon.com/) account
 
 ## Quick start
 
@@ -78,32 +77,14 @@ heroku open
 A browser should open with your new site functioning
 
 ## Static content
-### OPTIONAL it's recommended to point your CDN directly to your frontends instead.
+Point your cdn to your website as the origin.
 
-Create a file called `~/aws.json` in your home folder:
-
-````
-{
-	"test":{
-	    "key": "...",
-	    "secret": "...",
-	    "bucket": "..."
-	}
-}
-````
-
-Modify the config file `./server/config.coffee`
+Modify the config file `./server/config/prod.coffee`
 
 ````
-prod = 
-    cdn: "http://s3.amazonaws.com/xxx"
+config = 
+    cdn: "http://your.cdn.xxx"
 ````    
-  
-### Deploy to s3 with
-
-`
-grunt static
-`
 
 ## Redeploy to heroku
 
