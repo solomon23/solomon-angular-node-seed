@@ -1,16 +1,17 @@
 # register the controller
-appModule.controller "Page2Controller", [
-    "$scope", "remote"
-    ($scope, remote) ->
-        $scope.page = "page2"
+appModule.classy.controller
+    name: "Page2Controller"
+    inject: ["$scope", "remote"]
+    init: ->
+        @$.page = "page2"
 
         # this will fire an api request on page load
         # this returns an object that will update itself once the data
         # is ready so it can be used directly in the page
-        $scope.myData = remote.resourceRequest().get()
+        @$.myData = @remote.resourceRequest().get()
 
+    watch:
         # myData will be $resolved when the data is ready
-        $scope.$watch "myData.$resolved", (val) ->
+        "myData.$resolved": (val) ->
             # mark the page as complete
-            $scope.pageDone() if val
-]
+            @$.pageDone() if val

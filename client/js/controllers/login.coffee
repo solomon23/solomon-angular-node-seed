@@ -1,17 +1,14 @@
 # register the controller
-appModule.controller "LoginController", [
-    "$scope", "$log", "$location", "remote", "auth"
-    ($scope, $log, $location, remote, auth) ->
+appModule.classy.controller
+    name: "LoginController"
+    inject: ["$scope", "$log", "$location", "remote", "auth"]
+    init: ->
+        return @$location.path("/admin").replace() if @auth.user
 
-        _init = ->
-            return $location.path("/admin").replace() if auth.user
+    login: ->
+        @auth.login(@$.user.name, @$.user.pass)
+            .success =>
+                @$location.path("/admin").replace()
 
-        $scope.login = ->
-            auth.login($scope.user.name, $scope.user.pass)
-                .success ->
-                    $location.path("/admin").replace()
-
-                .error -> $scope.error = true
-
-        _init()
-]
+            .error =>
+                @$.error = true

@@ -1,22 +1,19 @@
 # register the controller
-appModule.controller "Page1Controller", [
-    "$scope", "$log", "remote", "remoteData"
-    ($scope, $log, remote, remoteData) ->
-        _init = ->
-            $scope.page = "page1"
+appModule.classy.controller
+    name: "Page1Controller"
+    inject: ["$scope", "$log", "remote", "remoteData"]
+    init: ->
+        @$.page = "page1"
 
-            # this data is retrieved by the route and blocks page loading until it's ready
-            $scope.myData = remoteData.message
+        # this data is retrieved by the route and blocks page loading until it's ready
+        @$.myData = @remoteData.message
 
-            remote.secureGet()
-                .success (res) ->
-                    $scope.secureData = res.message
+        @remote.secureGet()
+            .success (res) ->
+                @$.secureData = res.message
 
-                .error (res) ->
-                    $scope.errorData = "unable to get secure data.  login!"
+            .error (res) ->
+                @$.errorData = "unable to get secure data.  login!"
 
-                .finally ->
-                    $scope.pageDone()
-
-        _init()
-]
+            .finally ->
+                @$.pageDone()

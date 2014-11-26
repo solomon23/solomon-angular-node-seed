@@ -3,6 +3,7 @@ appModule = angular.module("myApp", [
     "ngRoute"
     "ngResource"
     "ngCookies"
+    "classy"
 ]).config ["$locationProvider", ($locationProvider) ->
     # add app config here
     $locationProvider.html5Mode(true).hashPrefix "!"
